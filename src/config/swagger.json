@@ -1,0 +1,457 @@
+{
+  "title": "Music API Documentation",
+  "description": "MUSIC API course for egghead",
+  "license": {
+    "name": "MIT",
+    "url": "https://opensource.org/licenses/MIT"
+  },
+  "version": "1.0.0",
+  "host": "localhost:3000",
+  "basePath": "/api",
+
+  "tags": [
+    {
+      "name": "Songs",
+      "description": "API for Songs Endpoints"
+    },
+    {
+      "name": "Users",
+      "description": "API for Users Endpoints"
+    },
+    {
+      "name": "PlayLists",
+      "description": "API for Playlist Endpoints"
+    }
+  ],
+
+  "schemes": ["http", "https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+
+  "paths": {
+    "/users/signup": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "API Endpoints for creating a new users",
+        "description": "create new song in database",
+        "parameters": [
+          {
+            "name": "Song",
+            "description": "Song parameter to create a new song",
+            "in": "body",
+            "required": "true",
+            "schema": {
+              "$ref": "#definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New User Created",
+            "schema": {
+              "$ref": "#definitions/SignupRsp"
+            }
+          }
+        }
+      }
+    },
+
+    "/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "API Endpoints lo login user",
+        "description": "Login User",
+        "parameters": [
+          {
+            "name": "Song",
+            "description": "User parameter to login",
+            "in": "body",
+            "required": "true",
+            "schema": {
+              "$ref": "#definitions/UserLogin"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "User Login Successfully",
+            "schema": {
+              "$ref": "#definitions/UserLoginRsp"
+            }
+          }
+        }
+      }
+    },
+
+    "/songs": {
+      "post": {
+        "tags": ["Songs"],
+        "summary": "API Endpoints for creating songs",
+        "description": "create new song in database",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "description": "Access token to authorize user",
+            "in": "header",
+            "required": "true",
+            "type": "string"
+          },
+          {
+            "name": "Song",
+            "description": "Song parameter to create a new song",
+            "in": "body",
+            "required": "true",
+            "schema": {
+              "$ref": "#definitions/Song"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New Song Created",
+            "schema": {
+              "$ref": "#definitions/Song"
+            }
+          }
+        }
+      },
+
+      "get": {
+        "tags": ["Songs"],
+        "summary": "API Endpoints for finding all songs",
+        "description": "Find all song in database",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "description": "Access token to authorize user",
+            "in": "header",
+            "required": "true",
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "description": "Define the page index for record",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "perPage",
+            "description": "Define the limit for records i.e 10",
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "All the songs",
+            "schema": {
+              "$ref": "#definitions/Songs"
+            }
+          }
+        }
+      }
+    },
+
+    "/songs/{id}": {
+      "parameters": [
+        {
+          "name": "Authorization",
+          "description": "Access token to authorize user",
+          "in": "header",
+          "required": "true",
+          "type": "string"
+        },
+        {
+          "name": "id",
+          "description": "Id of the song",
+          "in": "path",
+          "type": "string",
+          "required": "true"
+        }
+      ],
+
+      "get": {
+        "tags": ["Songs"],
+        "summary": "API Endpoints for finding single song",
+        "description": "Find one song in database",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Song has been found",
+            "schema": {
+              "$ref": "#definitions/Song"
+            }
+          }
+        }
+      },
+
+      "delete": {
+        "tags": ["Songs"],
+        "summary": "API Endpoints for deleting single song",
+        "description": "Delete one song in database",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Song has been Deleted",
+            "schema": {
+              "$ref": "#definitions/Song"
+            }
+          }
+        }
+      },
+
+      "put": {
+        "tags": ["Songs"],
+        "summary": "API Endpoints for updating song",
+        "description": "Update a song song in database",
+        "parameters": [
+          {
+            "name": "Song",
+            "description": "Song parameter to update a new song",
+            "in": "body",
+            "required": "true",
+            "schema": {
+              "$ref": "#definitions/UpdateSong"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Song Updated",
+            "schema": {
+              "$ref": "#definitions/UpdateSong"
+            }
+          }
+        }
+      }
+    },
+
+    "/playlist": {
+      "post": {
+        "tags": ["PlayLists"],
+        "summary": "Create a new PlayList",
+        "description": "Add new songs in the PlayList",
+        "parameters": [
+          {
+            "name": "playlist",
+            "description": "Songs that user want to add in the PlayList",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/PlayList"
+            }
+          },
+          {
+            "name": "authorization",
+            "description": "Access token to authorize the user",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "new PlayList is created",
+            "schema": {
+              "$ref": "#definitions/PlayList"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["PlayLists"],
+        "summary": "Find all the PlayList with Songs",
+        "description": "View all the Songs in the PlayList",
+        "parameters": [
+          {
+            "name": "authorization",
+            "description": "Access token to authorize the user",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "View all the PlayList",
+            "schema": {
+              "type": "array",
+              "$ref": "#definitions/PlayLists"
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "User": {
+      "required": ["firstName", "lastName", "email", "password"],
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "role": {
+          "type": "number"
+        }
+      }
+    },
+
+    "UserLogin": {
+      "required": ["email", "password"],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+
+    "UserLoginRsp": {
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+
+    "SignupRsp": {
+      "properties": {
+        "success": "boolean"
+      }
+    },
+
+    "Song": {
+      "required": ["title", "url"],
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+
+    "Songs": {
+      "properties": {
+        "docs": {
+          "type": "array",
+          "items": {
+            "$ref": "#definitions/Song"
+          }
+        },
+        "total": {
+          "type": "integer"
+        },
+        "pages": {
+          "type": "integer"
+        },
+        "page": {
+          "type": "integer"
+        },
+        "limit": {
+          "type": "integer"
+        }
+      }
+    },
+
+    "UpdateSong": {
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+
+    "PlayList": {
+      "required": ["name", "songs"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "songs": {
+          "type": "array",
+          "items": "string"
+        }
+      }
+    },
+
+    "PlayListCustomRsp": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "songs": {
+          "type": "array",
+          "items": "string"
+        },
+        "user": {
+          "$ref": "$definitions/UserCustomRsp"
+        }
+      }
+    },
+
+    "UserCustomRsp": {
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        }
+      }
+    },
+
+    "PlayLists": {
+      "type": "array",
+      "items": {
+        "$ref": "$definitions/PlayListCustomRsp"
+      }
+    }
+  }
+}
